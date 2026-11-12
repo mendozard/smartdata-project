@@ -1,0 +1,233 @@
+{
+  "datasets": [
+    {
+      "name": "6291f5ed",
+      "displayName": "Customer_most_spent",
+      "queryLines": [
+        "SELECT customer_id, SUM(total_spent) AS sum_total_spent\r\n",
+        "FROM catalog_tr.golden.customer_summary\r\n",
+        "GROUP BY customer_id\r\n",
+        "ORDER BY sum_total_spent DESC\r\n",
+        "LIMIT 10;"
+      ]
+    },
+    {
+      "name": "d92f5679",
+      "displayName": "transactions_by_payment_method",
+      "queryLines": [
+        "SELECT store_location, payment_method, transactions\r\n",
+        "FROM catalog_tr.golden.payment_method_by_store\r\n",
+        "ORDER BY store_location, transactions DESC;"
+      ]
+    },
+    {
+      "name": "22e788b5",
+      "displayName": "top_products_sold",
+      "queryLines": [
+        "SELECT product_id, product_name, units_sold\r\n",
+        "FROM catalog_tr.golden.product_performance\r\n",
+        "ORDER BY transactions DESC\r\n",
+        "LIMIT 5;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "2fde8f67",
+      "displayName": "Ventas",
+      "layout": [
+        {
+          "widget": {
+            "name": "top-10-clientes-que-mas-gastaron",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "6291f5ed",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "sum(sum_total_spent)",
+                      "expression": "SUM(`sum_total_spent`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Top 10 clientes que mas gastaron",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "customer_id",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(sum_total_spent)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 7,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "metodos-pago-mas-usados-localidad",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "d92f5679",
+                  "fields": [
+                    {
+                      "name": "store_location",
+                      "expression": "`store_location`"
+                    },
+                    {
+                      "name": "payment_method",
+                      "expression": "`payment_method`"
+                    },
+                    {
+                      "name": "transactions",
+                      "expression": "`transactions`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Metodos de pago mas usados por localidad",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "store_location"
+                  },
+                  {
+                    "fieldName": "payment_method"
+                  },
+                  {
+                    "fieldName": "transactions"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 7,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "top-5-productos-mas-vendidos",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "22e788b5",
+                  "fields": [
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "sum(units_sold)",
+                      "expression": "SUM(`units_sold`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Top 5 productos mas vendidos",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "product_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(units_sold)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 7,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
