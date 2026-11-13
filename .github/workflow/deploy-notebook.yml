@@ -133,7 +133,7 @@ jobs:
                 "notebook_path": "proceso/1.Preparacion_Ambiente",
                 "source": "WORKSPACE",
                 "base_parameters": {
-                  "storageName": "adbsmartdata0311prod",
+                  "storageName": "adlssmartdatagrupo18",
                   "catalogwk": "catalog_tr"
                 }
               },
@@ -171,7 +171,7 @@ jobs:
                   "container": "raw",
                   "catalogo": "catalog_tr",
                   "esquema": "bronze",
-                  "storageName": "adbsmartdata0311prod"
+                  "storageName": "adlssmartdatagrupo18"
                 }
               },
               "existing_cluster_id": "$CLUSTER_ID",
